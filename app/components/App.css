@@ -1,0 +1,9 @@
+* {
+  color: #555;
+}
+
+span.clock {
+  font-size: 84px;
+  font-weight: bold;
+  display: block;
+}
