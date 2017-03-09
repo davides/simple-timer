@@ -3,22 +3,43 @@ import Clock from './Clock';
 
 require('./App.css');
 
-export default () =>
-  <div>
-    <h1>simple-timer</h1>
-    <Clock />
-  </div>;
+const KeyMap = [
+  { match: e => e.keyCode === 32, run: app => app.toggleClock() }
+];
 
-/*
+function handleKey(app) {
+  return (e) => {
+    for (let i = 0; i < KeyMap.length; i++) {
+      if (KeyMap[i].match(e)) {
+        KeyMap[i].run(app, e);
+      }
+    }
+  };
+}
+
+let keyHandler;
+
+
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    keyHandler = handleKey(this);
+    document.addEventListener('keydown', keyHandler);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', keyHandler);
+  }
+
+  toggleClock() {
+    this.clock.toggle();
   }
 
   render() {
     return (
-      <h1>Hello World</h1>
+      <div>
+        <h1>simple-timer</h1>
+        <Clock ref={x => this.clock = x} />
+      </div>
     );
   }
 }
-*/
