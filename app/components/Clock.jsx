@@ -1,4 +1,7 @@
 import React from 'react';
+import History from './History';
+
+require('./Clock.css');
 
 const ZeroPadding = ['', '0', '00', '000'];
 function pad(num, width, padRight) {
@@ -21,7 +24,6 @@ export default class Clock extends React.Component {
   start() {
     this.origin = Date.now();
     this.interval = setInterval(this.tick.bind(this), 100);
-
     this.setState({ running: true });
   }
 
@@ -43,10 +45,13 @@ export default class Clock extends React.Component {
     if (this.interval) {
       clearInterval(this.interval);
     }
+
     this.elapsed = 0;
-    this.origin = Date.now();
     this.tick();
-    this.setState({ running: false });
+    this.setState({
+      time: this.renderTime(0),
+      running: false
+    });
   }
 
   toggle() {
@@ -55,6 +60,14 @@ export default class Clock extends React.Component {
     } else {
       this.start();
     }
+  }
+
+  save() {
+    if (this.state.running) {
+      return;
+    }
+
+    this.history.add({ value: this.renderTime(this.elapsed) });
   }
 
   renderTime(epoch) {
@@ -71,13 +84,29 @@ export default class Clock extends React.Component {
     return `${pad(minutes, 2)}:${pad(seconds, 2)}.${pad(milliseconds, 3, true)}`;
   }
 
+  // toggleButtonClass() {
+  //   return `glyphicon glyphicon-${this.state.running ? 'pause' : 'play'}`;
+  // }
+
   render() {
     return (
-      <div className="clock">
-        <span className="clock">{this.state.time}</span>
-        <button onClick={() => this.start()}>Start</button>
-        <button onClick={() => this.pause()}>Pause</button>
-        <button onClick={() => this.reset()}>Reset</button>
+      <div className="clock-container row">
+        <div className="clock col-md-9">
+          <span className="time">{this.state.time}</span>
+          <button className="btn btn-primary" onClick={() => this.toggle()}>
+            <span className={`glyphicon glyphicon-${this.state.running ? 'pause' : 'play'}`} aria-hidden="true" />
+          </button>
+          <button className="btn" onClick={() => this.reset()}>
+            <span className="glyphicon glyphicon-repeat" aria-hidden="true" />
+          </button>
+          <button className="btn" onClick={() => this.save()}>
+            <span className="glyphicon glyphicon-save" aria-hidden="true" />
+          </button>
+        </div>
+        <div className="history col-md-3">
+          <span className="heading">History</span>
+          <History ref={x => this.history = x} />
+        </div>
       </div>
     );
   }

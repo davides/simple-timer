@@ -1,0 +1,14 @@
+span.time {
+  font-size: 128px;
+  font-weight: bold;
+  display: block;
+}
+
+div.history {
+  border-left: 1px solid #aaa;
+}
+
+div.clock > button {
+  margin: 5px;
+  margin-right: 0;
+}

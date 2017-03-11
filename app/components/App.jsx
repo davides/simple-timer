@@ -4,7 +4,14 @@ import Clock from './Clock';
 require('./App.css');
 
 const KeyMap = [
-  { match: e => e.keyCode === 32, run: app => app.toggleClock() }
+  // Spacebar
+  { match: e => e.keyCode === 32, run: app => app.clock.toggle() },
+
+  // Backspace
+  { match: e => e.keyCode === 8, run: app => app.clock.reset() },
+
+  // Shift + s
+  { match: e => e.shiftKey && e.keyCode === 83, run: app => app.clock.save() },
 ];
 
 function handleKey(app) {
@@ -30,14 +37,13 @@ export default class App extends React.Component {
     document.removeEventListener('keydown', keyHandler);
   }
 
-  toggleClock() {
-    this.clock.toggle();
-  }
-
   render() {
     return (
-      <div>
-        <h1>simple-timer</h1>
+      <div className="container">
+        <div className="header">
+          <h1>simple-timer</h1>
+        </div>
+
         <Clock ref={x => this.clock = x} />
       </div>
     );

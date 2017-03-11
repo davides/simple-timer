@@ -1,9 +1,29 @@
 * {
-  color: #555;
+  color: #261800;
 }
 
-span.clock {
-  font-size: 128px;
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a.btn, button.btn-link {
+  padding: 0;
+}
+
+button,
+button > .glyphicon {
+  color: white;
+  font-size: 32px;
+  padding: 12px;
+}
+
+div.header {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 10px;
+  padding: 20px 0;
+}
+
+span.heading {
   font-weight: bold;
-  display: block;
 }
