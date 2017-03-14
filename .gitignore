@@ -49,3 +49,6 @@ lib
 
 # Editor
 .idea
+
+# Github Pages
+gh-pages
